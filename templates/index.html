@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detecção de Objetos</title>
+</head>
+<body>
+    <h1>Transmissão de vídeo</h1>
+    <img src="{{ url_for('video_feed') }}" width="800">
+
+    <h2>Status da Detecção: <span id="status-deteccao">Aguardando...</span></h2>
+
+    <script>
+        function atualizarStatus() {
+            fetch('/status')
+                .then(response => response.json())
+                .then(data => {
+                    const status = data.obj_detectado ? "Objeto Detectado" : "Nenhuma Detecção";
+                    document.getElementById("status-deteccao").innerText = status;
+                })
+                .catch(err => console.error("Erro ao buscar status:", err));
+        }
+
+        setInterval(atualizarStatus, 1000); // Atualiza a cada 1 segundo
+    </script>
+</body>
+</html>
